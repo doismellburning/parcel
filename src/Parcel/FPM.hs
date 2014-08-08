@@ -12,6 +12,8 @@ fpm config =
     let
         command = fromJust $ fpmCommand config -- TODO Nope
         args =
-            [ "-s", "dir" ]
+            [ "-s", "dir"
+            , "-t", outputTypeToFPMString $ fromJust $ outputType config -- TODO Nope
+            ]
     in
         callProcess command args

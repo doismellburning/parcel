@@ -3,6 +3,8 @@ module Parcel.Config (
     , defaultParcelConfig
     , fpmCommand
     , merge
+    , outputType
+    , outputTypeToFPMString
 ) where
 
 data OutputType = Deb deriving (Eq, Show)
