@@ -21,3 +21,7 @@ clean:
 .PHONY: docs
 docs:
 	cabal haddock
+
+.PHONY: run
+run:
+	cabal run
