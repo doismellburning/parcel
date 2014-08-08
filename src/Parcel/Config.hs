@@ -6,6 +6,7 @@ module Parcel.Config (
     , options
     , outputType
     , outputTypeToFPMString
+    , packageName
     , parseOptions
 ) where
 
@@ -25,6 +26,7 @@ parseOutputType _ = error $ "Invalid output type, must be one of: " ++ (unwords 
 data ParcelConfig = ParcelConfig
     { fpmCommand :: Maybe FilePath
     , outputType :: Maybe OutputType
+    , packageName :: Maybe String
 } deriving (Show)
 
 merge :: ParcelConfig -> ParcelConfig -> ParcelConfig
@@ -32,6 +34,7 @@ merge a b =
     ParcelConfig
         { fpmCommand = maybeMerge (fpmCommand a) (fpmCommand b)
         , outputType = maybeMerge (outputType a) (outputType b)
+        , packageName = maybeMerge (packageName a) (packageName b)
         }
 
 maybeMerge :: Maybe a -> Maybe a -> Maybe a
@@ -39,7 +42,7 @@ maybeMerge x Nothing = x
 maybeMerge _ (Just x) = Just x
 
 blankParcelConfig :: ParcelConfig
-blankParcelConfig = ParcelConfig Nothing Nothing
+blankParcelConfig = ParcelConfig Nothing Nothing Nothing
 
 defaultParcelConfig :: ParcelConfig
 defaultParcelConfig = blankParcelConfig { fpmCommand = Just "fpm" }
@@ -48,6 +51,7 @@ options :: [OptDescr (ParcelConfig -> ParcelConfig)]
 options =
     [ Option ['f'] ["fpm-command"] (ReqArg (\s c -> c { fpmCommand = Just s }) "COMMAND") "Path to the fpm command to use"
     , Option ['t'] ["output-type"] (ReqArg (\s c -> c { outputType = Just $ parseOutputType s }) "OUTPUT_TYPE") "Output package type"
+    , Option ['n'] ["name"] (ReqArg (\s c -> c { packageName = Just s }) "PACKAGE_NAME") "Package name"
     ]
 
 parseOptions :: [String] -> ParcelConfig

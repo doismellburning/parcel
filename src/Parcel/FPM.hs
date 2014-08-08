@@ -14,6 +14,8 @@ fpm config =
         args =
             [ "-s", "dir"
             , "-t", outputTypeToFPMString $ fromJust $ outputType config -- TODO Nope
+            , "--name", fromJust $ packageName config
+            , "."
             ]
     in
         callProcess command args
