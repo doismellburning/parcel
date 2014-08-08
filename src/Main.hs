@@ -1,3 +1,4 @@
-import Parcel
+import Parcel.Config
+import Parcel.FPM
 
-main = undefined
+main = fpm defaultParcelConfig
