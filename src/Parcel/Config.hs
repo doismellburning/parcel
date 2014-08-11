@@ -50,7 +50,7 @@ defaultParcelConfig = blankParcelConfig { fpmCommand = Just "fpm" }
 options :: [OptDescr (ParcelConfig -> ParcelConfig)]
 options =
     [ Option ['f'] ["fpm-command"] (ReqArg (\s c -> c { fpmCommand = Just s }) "COMMAND") "Path to the fpm command to use"
-    , Option ['t'] ["output-type"] (ReqArg (\s c -> c { outputType = Just $ parseOutputType s }) "OUTPUT_TYPE") "Output package type"
+    , Option ['o'] ["output-type"] (ReqArg (\s c -> c { outputType = Just $ parseOutputType s }) "OUTPUT_TYPE") "Output package type"
     , Option ['n'] ["name"] (ReqArg (\s c -> c { packageName = Just s }) "PACKAGE_NAME") "Package name"
     ]
 
