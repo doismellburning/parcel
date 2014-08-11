@@ -4,12 +4,18 @@ module Parcel.FPM (
 
 import Parcel.Config
 
+import Data.Maybe
 import System.Process
 
-fpm :: ParcelConfig -> IO ()
+fpm :: ParcelConfig -> IO () -- TODO Make this Either [Errors] (IO ())
 fpm config =
     let
-        command = fpmCommand config
-        args = []
+        command = fromJust $ fpmCommand config -- TODO Nope
+        args =
+            [ "-s", "dir"
+            , "-t", outputTypeToFPMString $ fromJust $ outputType config -- TODO Nope
+            , "--name", fromJust $ packageName config
+            , "."
+            ]
     in
         callProcess command args
