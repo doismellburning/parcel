@@ -22,3 +22,6 @@ What sort of things does this let you do, and why is it better than vanilla fpm?
 * Automatic init-script generation from a per-project `Procfile`
 * Automatic version number extraction (TODO)
 
+### Usage
+
+    $ parcel --name myparcel --output-type deb
