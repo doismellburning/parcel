@@ -2,6 +2,7 @@ module Parcel.Config (
     ParcelConfig
     , defaultParcelConfig
     , fpmCommand
+    , loadYaml
     , merge
     , options
     , outputType
@@ -10,6 +11,10 @@ module Parcel.Config (
     , parseOptions
 ) where
 
+import Control.Applicative
+import Data.Maybe
+import Data.Text (pack, unpack)
+import Data.Yaml
 import System.Console.GetOpt
 
 data OutputType = Deb deriving (Enum, Eq, Show)
@@ -64,3 +69,25 @@ header :: String
 header = unlines
     [ "Parcel: Turning code into packages - https://github.com/doismellburning/parcel" -- TODO Stop hardcoding
     ]
+
+
+instance FromJSON ParcelConfig where
+    parseJSON (Object o) =
+        ParcelConfig <$>
+        o .:? (pack "fpm-command") <*>
+        o .:? (pack "output-type") <*>
+        o .:? (pack "name")
+
+    parseJSON x = error $ "Can't parse ParcelConfig from YAML non-object:" ++ show x
+
+instance FromJSON OutputType where
+    parseJSON (String t) = return $ parseOutputType $ unpack t
+    parseJSON x = error $ "Can't parse OutputType from YAML non-string: " ++ show x
+
+loadYaml :: FilePath -> IO ParcelConfig
+loadYaml fp =
+    let
+        d = decodeFile fp :: IO (Maybe ParcelConfig)
+        f = fromMaybe (error $ "Cannot parse " ++ fp ++ " as YAML") :: Maybe ParcelConfig -> ParcelConfig
+    in
+        f `fmap` d
