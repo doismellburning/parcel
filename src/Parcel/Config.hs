@@ -1,6 +1,7 @@
 module Parcel.Config (
     ParcelConfig
     , defaultParcelConfig
+    , exclude
     , fpmCommand
     , loadYaml
     , merge
@@ -32,6 +33,7 @@ data ParcelConfig = ParcelConfig
     { fpmCommand :: Maybe FilePath
     , outputType :: Maybe OutputType
     , packageName :: Maybe String
+    , exclude :: Maybe [String]
 } deriving (Show)
 
 merge :: ParcelConfig -> ParcelConfig -> ParcelConfig
@@ -40,14 +42,19 @@ merge a b =
         { fpmCommand = maybeMerge (fpmCommand a) (fpmCommand b)
         , outputType = maybeMerge (outputType a) (outputType b)
         , packageName = maybeMerge (packageName a) (packageName b)
+        , exclude = merge' (++) (exclude a) (exclude b)
         }
 
+merge' :: (a -> a -> a) -> Maybe a -> Maybe a -> Maybe a
+merge' _ x Nothing = x
+merge' _ Nothing x = x
+merge' f (Just x) (Just y) = Just (f x y)
+
 maybeMerge :: Maybe a -> Maybe a -> Maybe a
-maybeMerge x Nothing = x
-maybeMerge _ (Just x) = Just x
+maybeMerge = merge' (flip const)
 
 blankParcelConfig :: ParcelConfig
-blankParcelConfig = ParcelConfig Nothing Nothing Nothing
+blankParcelConfig = ParcelConfig Nothing Nothing Nothing Nothing
 
 defaultParcelConfig :: ParcelConfig
 defaultParcelConfig = blankParcelConfig { fpmCommand = Just "fpm" }
@@ -76,7 +83,8 @@ instance FromJSON ParcelConfig where
         ParcelConfig <$>
         o .:? (pack "fpm-command") <*>
         o .:? (pack "output-type") <*>
-        o .:? (pack "name")
+        o .:? (pack "name") <*>
+        o .:? (pack "exclude")
 
     parseJSON x = error $ "Can't parse ParcelConfig from YAML non-object:" ++ show x
 
