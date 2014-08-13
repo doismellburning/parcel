@@ -1,6 +1,7 @@
 module Parcel.Config (
     ParcelConfig
     , defaultParcelConfig
+    , exclude
     , fpmCommand
     , loadYaml
     , merge
