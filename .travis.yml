@@ -4,4 +4,4 @@ before_script:
     - gem install fpm
 script:
     - "cabal run"
-    - "sudo dpkg -I parcel*deb"
+    - "sudo dpkg --install parcel*deb"
