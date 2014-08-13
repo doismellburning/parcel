@@ -1,1 +1,6 @@
 language: haskell
+before_script:
+    - sudo cp example-etc-parcel.yaml /etc/parcel.yaml
+script:
+    - "cabal run"
+    - "sudo dpkg -I parcel*deb"
