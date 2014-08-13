@@ -16,7 +16,7 @@ executable parcel
     build-depends:
         base >=4.6 && <4.7
         , bytestring
-        , directory==1.2.0.1
+        , directory
         , parcel
         , process==1.2.0.0
         , text
@@ -33,7 +33,7 @@ library
     build-depends:
         base >=4.6 && <4.7
         , bytestring
-        , directory==1.2.0.1
+        , directory
         , process==1.2.0.0
         , text
         , yaml

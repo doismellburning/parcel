@@ -13,7 +13,7 @@ Sort of not, in that it adds a config layer on the top so you / your organisatio
 ### How?
 
 You `cd` to a project, run `parcel`.
-It reads your organization config (default: `/etc/parcel/organization.yaml`) and your local package config (default: `./parcel.yaml`) and builds you packages in `./parcel`)
+It reads your organization config (default: `/etc/parcel.yaml`) and your local package config (default: `./parcel.yaml`) and builds you packages in `./parcel`)
 
 What sort of things does this let you do, and why is it better than vanilla fpm?
 
