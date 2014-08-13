@@ -1,4 +1,5 @@
 output-type: deb
+organisation: myorg
 exclude:
     - .git
     - .idea
