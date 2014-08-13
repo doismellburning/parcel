@@ -1,1 +1,7 @@
 language: haskell
+before_script:
+    - sudo cp example-etc-parcel.yaml /etc/parcel.yaml
+    - gem install fpm
+script:
+    - "cabal run"
+    - "sudo dpkg --install parcel*deb"
