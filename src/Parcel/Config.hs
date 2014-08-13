@@ -32,6 +32,7 @@ data ParcelConfig = ParcelConfig
     { fpmCommand :: Maybe FilePath
     , outputType :: Maybe OutputType
     , packageName :: Maybe String
+    , organisation :: Maybe String
 } deriving (Show)
 
 merge :: ParcelConfig -> ParcelConfig -> ParcelConfig
@@ -40,6 +41,7 @@ merge a b =
         { fpmCommand = maybeMerge (fpmCommand a) (fpmCommand b)
         , outputType = maybeMerge (outputType a) (outputType b)
         , packageName = maybeMerge (packageName a) (packageName b)
+        , organisation = maybeMerge (organisation a) (organisation b)
         }
 
 maybeMerge :: Maybe a -> Maybe a -> Maybe a
@@ -47,7 +49,7 @@ maybeMerge x Nothing = x
 maybeMerge _ (Just x) = Just x
 
 blankParcelConfig :: ParcelConfig
-blankParcelConfig = ParcelConfig Nothing Nothing Nothing
+blankParcelConfig = ParcelConfig Nothing Nothing Nothing Nothing
 
 defaultParcelConfig :: ParcelConfig
 defaultParcelConfig = blankParcelConfig { fpmCommand = Just "fpm" }
@@ -76,7 +78,8 @@ instance FromJSON ParcelConfig where
         ParcelConfig <$>
         o .:? (pack "fpm-command") <*>
         o .:? (pack "output-type") <*>
-        o .:? (pack "name")
+        o .:? (pack "name") <*>
+        o .:? (pack "organisation")
 
     parseJSON x = error $ "Can't parse ParcelConfig from YAML non-object:" ++ show x
 
