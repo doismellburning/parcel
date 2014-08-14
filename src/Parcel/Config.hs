@@ -6,6 +6,7 @@ module Parcel.Config (
     , loadYaml
     , merge
     , options
+    , organisation
     , outputType
     , outputTypeToFPMString
     , packageName
