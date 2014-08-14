@@ -24,4 +24,5 @@ What sort of things does this let you do, and why is it better than vanilla fpm?
 
 ### Usage
 
-    $ parcel --name myparcel --output-type deb
+    $ parcel --organisation myorg --name myparcel --output-type deb
+    # Creates a deb of the current directory that will install to `/opt/myorg/myparcel`

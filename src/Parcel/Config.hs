@@ -6,6 +6,7 @@ module Parcel.Config (
     , loadYaml
     , merge
     , options
+    , organisation
     , outputType
     , outputTypeToFPMString
     , packageName
@@ -33,6 +34,7 @@ data ParcelConfig = ParcelConfig
     { fpmCommand :: Maybe FilePath
     , outputType :: Maybe OutputType
     , packageName :: Maybe String
+    , organisation :: Maybe String
     , exclude :: Maybe [String]
 } deriving (Show)
 
@@ -42,6 +44,7 @@ merge a b =
         { fpmCommand = maybeMerge (fpmCommand a) (fpmCommand b)
         , outputType = maybeMerge (outputType a) (outputType b)
         , packageName = maybeMerge (packageName a) (packageName b)
+        , organisation = maybeMerge (organisation a) (organisation b)
         , exclude = merge' (++) (exclude a) (exclude b)
         }
 
@@ -54,7 +57,7 @@ maybeMerge :: Maybe a -> Maybe a -> Maybe a
 maybeMerge = merge' (flip const)
 
 blankParcelConfig :: ParcelConfig
-blankParcelConfig = ParcelConfig Nothing Nothing Nothing Nothing
+blankParcelConfig = ParcelConfig Nothing Nothing Nothing Nothing Nothing
 
 defaultParcelConfig :: ParcelConfig
 defaultParcelConfig = blankParcelConfig { fpmCommand = Just "fpm" }
@@ -84,6 +87,7 @@ instance FromJSON ParcelConfig where
         o .:? (pack "fpm-command") <*>
         o .:? (pack "output-type") <*>
         o .:? (pack "name") <*>
+        o .:? (pack "organisation") <*>
         o .:? (pack "exclude")
 
     parseJSON x = error $ "Can't parse ParcelConfig from YAML non-object:" ++ show x

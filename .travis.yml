@@ -5,3 +5,4 @@ before_script:
 script:
     - "cabal run"
     - "sudo dpkg --install parcel*deb"
+    - "ls /opt/myorg/parcel"
