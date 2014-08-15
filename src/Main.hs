@@ -14,9 +14,7 @@ packageConfigFile = "./parcel.yaml"
 
 main =
     let
-        argv = getArgs
-
-        cliConfig = parseOptions `fmap` argv :: IO ParcelConfig
+        cliConfig = parseOptions `fmap` getArgs :: IO ParcelConfig
         orgConfig = fileConfig orgConfigFile :: IO (Maybe ParcelConfig)
         packageConfig = fileConfig packageConfigFile :: IO (Maybe ParcelConfig)
 
