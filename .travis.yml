@@ -3,6 +3,7 @@ before_script:
     - sudo cp example-etc-parcel.yaml /etc/parcel.yaml
     - gem install fpm
 script:
+    - "cabal test"
     - "cabal run"
     - "sudo dpkg --install parcel*deb"
     - "ls /opt/myorg/parcel"
