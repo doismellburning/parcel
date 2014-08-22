@@ -1,4 +1,7 @@
 import Test.Hspec
 
 main :: IO ()
-main = return ()
+main = hspec $ do
+    describe "Parcel" $ do
+        it "lorem ipsum" $ do
+            () `shouldBe` ()
