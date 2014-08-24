@@ -11,6 +11,13 @@ fpm :: ParcelConfig -> IO () -- TODO Make this Either [Errors] (IO ())
 fpm config =
     let
         command = fromJust $ fpmCommand config -- TODO Nope
+        args = fpmArgs config
+    in
+        callProcess command args
+
+fpmArgs :: ParcelConfig -> [String]
+fpmArgs config =
+    let
         ex = concatMap (\x -> ["--exclude", x]) $ fromJust $ exclude config :: [String]-- TODO Nope
         prefix = "/opt/" ++ (fromJust $ organisation config) ++ "/" ++ (fromJust $ packageName config)
         args =
@@ -20,4 +27,4 @@ fpm config =
             , "--prefix", prefix
             ] ++ ex ++ ["."]
     in
-        callProcess command args
+        args
